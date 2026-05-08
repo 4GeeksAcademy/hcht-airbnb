@@ -1,0 +1,98 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+
+interface NavbarProps {
+  searchValue?: string;
+  onSearchChange?: (value: string) => void;
+  showSearch?: boolean;
+}
+
+const Navbar = ({ searchValue = "", onSearchChange, showSearch = true }: NavbarProps) => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  return (
+    <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 gap-4">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-1 flex-shrink-0">
+            <svg
+              viewBox="0 0 32 32"
+              className="w-8 h-8 text-rose-500 fill-current"
+              aria-label="Airbnb"
+            >
+              <path d="M16 1C9.925 1 5 5.925 5 12c0 3.953 2.01 7.44 5.078 9.516L16 31l5.922-9.484C24.99 19.44 27 15.953 27 12c0-6.075-4.925-11-11-11zm0 15.5a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z" />
+            </svg>
+            <span className="text-rose-500 font-bold text-xl hidden sm:block">airbnb</span>
+          </Link>
+
+          {/* Search bar */}
+          {showSearch && (
+            <div className="flex-1 max-w-md">
+              <div className="relative">
+                <svg
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+                <input
+                  type="text"
+                  placeholder="Busca destinos..."
+                  value={searchValue}
+                  onChange={(e) => onSearchChange?.(e.target.value)}
+                  className="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-transparent transition"
+                />
+              </div>
+            </div>
+          )}
+
+          {/* User menu */}
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <Link
+              href="/catalog"
+              className="hidden sm:block text-sm font-medium text-gray-700 hover:text-rose-500 transition px-3 py-1"
+            >
+              Catálogo
+            </Link>
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="flex items-center gap-2 border border-gray-300 rounded-full px-3 py-1.5 hover:shadow-md transition"
+            >
+              <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+              <div className="w-7 h-7 bg-gray-500 rounded-full flex items-center justify-center">
+                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
+                </svg>
+              </div>
+            </button>
+
+            {menuOpen && (
+              <div className="absolute top-16 right-4 bg-white border border-gray-200 rounded-xl shadow-lg py-2 w-48 z-50">
+                <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Iniciar sesión</button>
+                <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Registrarse</button>
+                <hr className="my-1 border-gray-200" />
+                <Link href="/catalog" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                  Catálogo
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+};
+
+export default Navbar;
